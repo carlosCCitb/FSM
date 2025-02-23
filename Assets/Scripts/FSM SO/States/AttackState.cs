@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "DieState", menuName = "StatesSO/Die")]
-public class DieState : StatesSO
+[CreateAssetMenu(fileName = "AttackState", menuName = "StatesSO/Attack")]
+public class AttackState : StateSO
 {
     public override void OnStateEnter(EnemyController ec)
     {
@@ -14,6 +14,6 @@ public class DieState : StatesSO
 
     public override void OnStateUpdate(EnemyController ec)
     {
-        GameManager.gm.UpdateText("Abandoné este mundo de miseria y desesperación");
+        GameManager.gm.UpdateText("Te reviento a chancletaso");
     }
 }

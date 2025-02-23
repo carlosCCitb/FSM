@@ -1,13 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public StatesSO CurrentState;
     public int HP;
     public GameObject target;
+    public int DamagedHP;
+    public bool OnRange = false, OnAttackRange = false;
     private ChaseBehaviour _chaseB;
+    public StateSO currentNode;
+    public List<StateSO> Nodes;
+
     void Start()
     {
         _chaseB = GetComponent<ChaseBehaviour>();
@@ -15,48 +20,62 @@ public class EnemyController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         target = collision.gameObject;
-        GoToState<ChaseState>();
+        OnRange = true;
+        CheckEndingConditions();
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        GoToState<IdleState>();
+        OnRange = false;
+        CheckEndingConditions();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        GoToState<AttackState>();
+        OnAttackRange = true;
+        CheckEndingConditions();
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        GoToState<ChaseState>();
-    }
-    public void CheckIfAlife()
-    {
-        if (HP < 1)
-        {
-            GoToState<DieState>();
-        }
-        else if(HP < 5)
-        {
-            GoToState<RunState>();
-        }
+        OnAttackRange = false;
+        CheckEndingConditions();
     }
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
             HP--;
-            CheckIfAlife();
+            CheckEndingConditions();
         }
-        CurrentState.OnStateUpdate(this);
+        currentNode.OnStateUpdate(this);
     }
-
-    public void GoToState<T>() where T : StatesSO
+    public void CheckEndingConditions()
     {
-        if (CurrentState.StatesToGo.Find(state => state is T))
+        foreach (ConditionSO condition in currentNode.EndConditions)
+            if (condition.CheckCondition(this) == condition.answer) ExitCurrentNode();
+    }
+    public void ExitCurrentNode()
+    {
+        foreach (StateSO stateSO in Nodes)
         {
-            CurrentState.OnStateExit(this);
-            CurrentState = CurrentState.StatesToGo.Find(obj => obj is T);
-            CurrentState.OnStateEnter(this);
+            if (stateSO.StartCondition == null)
+            {
+                EnterNewState(stateSO);
+                break;
+            }
+            else
+            {
+                if (stateSO.StartCondition.CheckCondition(this) == stateSO.StartCondition.answer)
+                {
+                    EnterNewState(stateSO);
+                    break;
+                }
+            }
         }
+        currentNode.OnStateEnter(this);
+    }
+    private void EnterNewState(StateSO state)
+    {
+        currentNode.OnStateExit(this);
+        currentNode = state;
+        currentNode.OnStateEnter(this);
     }
 }

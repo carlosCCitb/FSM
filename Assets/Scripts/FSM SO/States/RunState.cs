@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "ChaseState", menuName = "StatesSO/Chase")]
-public class ChaseState : StatesSO
+[CreateAssetMenu(fileName = "RunState", menuName = "StatesSO/Run")]
+public class RunState : StateSO
 {
     public override void OnStateEnter(EnemyController ec)
     {
@@ -15,7 +15,7 @@ public class ChaseState : StatesSO
 
     public override void OnStateUpdate(EnemyController ec)
     {
-        GameManager.gm.UpdateText("Ven que te quiero decir una cosa");
-        ec.GetComponent<ChaseBehaviour>().Chase(ec.target.transform, ec.transform);
+        GameManager.gm.UpdateText("CoSorro");
+        ec.GetComponent<ChaseBehaviour>().Run(ec.target.transform, ec.transform);
     }
 }

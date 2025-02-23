@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7b92a08d0f7e840b58ffa2e9e75c12, type: 3}
   m_Name: IdleState
   m_EditorClassIdentifier: 
-  StatesToGo:
-  - {fileID: 11400000, guid: ddec8bb267f121441b813d44ffbce6b2, type: 2}
-  - {fileID: 11400000, guid: e387dd0668821a24a9437dec8888c66e, type: 2}
-  - {fileID: 11400000, guid: 68bf2915d6252674d883374f46eb24ae, type: 2}
-  - {fileID: 11400000, guid: 58a5347df0e2dbb40a1c222340b970f9, type: 2}
+  StartCondition: {fileID: 0}
+  EndConditions:
+  - {fileID: 11400000, guid: f2fd800249f66f44d92c7700a61cc40c, type: 2}
+  - {fileID: 11400000, guid: ce7f949247245ec42bc89f78347d7063, type: 2}
+  - {fileID: 11400000, guid: 72322723348ae2a4bb1fd242175e125d, type: 2}
+  - {fileID: 11400000, guid: 7a0d4567f9b867d41ad8ba7404600647, type: 2}
